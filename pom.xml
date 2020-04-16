@@ -8,7 +8,7 @@
 
     <name>weixin-popular</name>
     <description>The weixin-popular is a JAVA SDK for weixin. Weixin web url is https://mp.weixin.qq.com.</description>
-    <url>https://github.com/liyiorg/weixin-popular</url>
+    <url>https://github.com/a497771654/weixin-popular</url>
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -19,6 +19,10 @@
         <developer>
             <name>lvliangjun</name>
             <email>497771654@qq.com</email>
+        </developer>
+        <developer>
+            <name>Yi Li</name>
+            <email>liuemc@msn.com</email>
         </developer>
     </developers>
 
@@ -34,6 +38,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>

@@ -8,6 +8,10 @@ public class TemplateMessageItem{
 	public TemplateMessageItem() {
 	}
 
+	public TemplateMessageItem(String value) {
+		this.value = value;
+	}
+
 	public TemplateMessageItem(String value, String color) {
 		super();
 		this.value = value;

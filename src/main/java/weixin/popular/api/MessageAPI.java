@@ -1,31 +1,25 @@
 package weixin.popular.api;
 
-import java.nio.charset.Charset;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
-
 import weixin.popular.bean.BaseResult;
 import weixin.popular.bean.media.Media;
-import weixin.popular.bean.message.ApiAddTemplateResult;
-import weixin.popular.bean.message.Article;
-import weixin.popular.bean.message.CurrentAutoreplyInfo;
-import weixin.popular.bean.message.GetAllPrivateTemplateResult;
-import weixin.popular.bean.message.GetIndustryResult;
-import weixin.popular.bean.message.MessageSendResult;
-import weixin.popular.bean.message.Uploadvideo;
+import weixin.popular.bean.message.*;
 import weixin.popular.bean.message.massmessage.MassMessage;
 import weixin.popular.bean.message.message.Message;
 import weixin.popular.bean.message.preview.Preview;
 import weixin.popular.bean.message.templatemessage.TemplateMessage;
 import weixin.popular.bean.message.templatemessage.TemplateMessageResult;
+import weixin.popular.bean.message.templatemessage.WxSubscribeTemplateMessage;
 import weixin.popular.bean.message.templatemessage.WxopenTemplateMessage;
 import weixin.popular.client.LocalHttpClient;
 import weixin.popular.util.JsonUtil;
+
+import java.nio.charset.Charset;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 当用户主动发消息给公众号的时候
@@ -300,7 +294,24 @@ public class MessageAPI extends BaseAPI {
                 .build();
         return LocalHttpClient.executeJsonResult(httpUriRequest, BaseResult.class);
     }
-
+    /**
+     * 订阅消息发送（微信小程序）
+     *
+     * @param access_token    access_token
+     * @param templateMessage templateMessage
+     * @return result
+     * @since 2.8.3
+     */
+    public static BaseResult messageWxSubscribeTemplateSend(String access_token, WxSubscribeTemplateMessage wxSubscribeTemplateMessage) {
+        String messageJson = JsonUtil.toJSONString(wxSubscribeTemplateMessage);
+        HttpUriRequest httpUriRequest = RequestBuilder.post()
+                .setHeader(jsonHeader)
+                .setUri(BASE_URI + "/cgi-bin/message/subscribe/send")
+                .addParameter(PARAM_ACCESS_TOKEN, API.accessToken(access_token))
+                .setEntity(new StringEntity(messageJson, Charset.forName("utf-8")))
+                .build();
+        return LocalHttpClient.executeJsonResult(httpUriRequest, BaseResult.class);
+    }
     /**
      * 模板消息 设置所属行业
      *
