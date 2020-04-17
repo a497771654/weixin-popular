@@ -2,7 +2,6 @@ package weixin.popular.api;
 
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-
 import weixin.popular.bean.ticket.Ticket;
 import weixin.popular.client.LocalHttpClient;
 
@@ -36,4 +35,16 @@ public class TicketAPI extends BaseAPI{
 				.build();
 		return LocalHttpClient.executeJsonResult(httpUriRequest,Ticket.class);
 	}
+	public static Ticket getTicketFromProxy(String url){
+		HttpUriRequest httpUriRequest = RequestBuilder.get()
+				.setUri(url)
+				.build();
+		return LocalHttpClient.executeJsonResult(httpUriRequest,Ticket.class);
+	}
+
+	public static void main(String[] args) {
+		Ticket ticket = TicketAPI.getTicketFromProxy("http://localhost:3000/ticket");
+		System.out.println(ticket);
+	}
+
 }

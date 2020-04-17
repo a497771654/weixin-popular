@@ -1,15 +1,5 @@
 package weixin.popular.client;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -24,8 +14,13 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import weixin.popular.Version;
+
+import java.io.*;
+import java.security.KeyStore;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LocalHttpClient {
 	
@@ -138,6 +133,7 @@ public class LocalHttpClient {
 			}
 			return t;
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("execute error", e);
 		}
 		return null;

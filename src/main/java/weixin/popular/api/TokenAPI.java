@@ -28,5 +28,15 @@ public class TokenAPI extends BaseAPI{
 				.build();
 		return LocalHttpClient.executeJsonResult(httpUriRequest,Token.class);
 	}
+	public static Token getTokenFromProxy(String url){
+		HttpUriRequest httpUriRequest = RequestBuilder.get()
+				.setUri(url)
+				.build();
+		return LocalHttpClient.executeJsonResult(httpUriRequest,Token.class);
+	}
 
+	public static void main(String[] args) {
+		Token token = TokenAPI.getTokenFromProxy("http://localhost:3000");
+		System.out.println(token.getAccess_token());
+	}
 }
