@@ -1,21 +1,19 @@
 package weixin.popular.util;
 
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
+import com.qq.weixin.mp.aes.PKCS7Encoder;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.qq.weixin.mp.aes.PKCS7Encoder;
-
 import weixin.popular.bean.wxa.WxaDUserInfo;
+import weixin.popular.bean.wxa.WxaDUserPhone;
 import weixin.popular.bean.wxa.WxaUserInfo;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 
 /**
  * 小程序 工具类
@@ -66,6 +64,28 @@ public abstract class WxaUtil {
 				return JsonUtil.parseObject(rawData, WxaUserInfo.class);
 			}
 		} catch (Exception e) {
+			logger.error("", e);
+		}
+		return null;
+	}
+
+	/**
+	 * 解密小程序获取到的用户电话
+	 * @param session_key
+	 * @param encryptedData
+	 * @param iv
+	 * @return
+	 */
+	public static WxaDUserPhone decryptUserPhone(String session_key, String encryptedData, String iv) {
+		try {
+			Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+			Key sKeySpec = new SecretKeySpec(Base64.decodeBase64(session_key), "AES");
+			cipher.init(Cipher.DECRYPT_MODE, sKeySpec, new IvParameterSpec(Base64.decodeBase64(iv)));
+			byte[] resultByte = cipher.doFinal(Base64.decodeBase64(encryptedData));
+			String data = new String(PKCS7Encoder.decode(resultByte), StandardCharsets.UTF_8);
+			return JsonUtil.parseObject(data, WxaDUserPhone.class);
+		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("", e);
 		}
 		return null;
