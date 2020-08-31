@@ -3,8 +3,7 @@ package weixin.popular.api;
 
 import org.junit.Test;
 import weixin.popular.bean.BaseResult;
-import weixin.popular.bean.message.templatemessage.TemplateMessageItem;
-import weixin.popular.bean.message.templatemessage.WxSubscribeTemplateMessage;
+import weixin.popular.bean.message.templatemessage.*;
 
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
@@ -41,6 +40,42 @@ public class MessageAPITest {
 
 
         BaseResult res = MessageAPI.messageWxSubscribeTemplateSend("",wxSubscribeTemplateMessage);
+        System.out.println(res);
+    }
+    @Test
+    public void messageWxUniformSend() {
+        WxUniformMessage wxUniformMessage=new WxUniformMessage();
+
+        wxUniformMessage.setTouser("oJ6ZI40zI7s81NtWcL0spGoqTCwM");
+
+        TemplateMessageItem first=new TemplateMessageItem("你有一个新的订单");
+        LinkedHashMap<String, TemplateMessageItem> data = new LinkedHashMap<>();
+        TemplateMessageItem templateMessageItem1 = new TemplateMessageItem("987456321");
+        TemplateMessageItem templateMessageItem2 = new TemplateMessageItem("2018-08-01 19:00");
+        TemplateMessageItem templateMessageItem3 = new TemplateMessageItem("TMB 001奶茶");
+        TemplateMessageItem templateMessageItem4 = new TemplateMessageItem("广州市珠江新城猎德新村详细订单信息请点击进入个人中心");
+
+        data.put("first", first);
+        data.put("keyword1", templateMessageItem1);
+        data.put("keyword2", templateMessageItem2);
+        data.put("keyword3", templateMessageItem3);
+        data.put("keyword4", templateMessageItem4);
+        MpTemplateMsgBean mpTemplateMsgBean = new MpTemplateMsgBean();
+        mpTemplateMsgBean.setData(data);
+
+
+        TemplateMessageMiniProgram templateMessageMiniProgram = new TemplateMessageMiniProgram();
+        templateMessageMiniProgram.setAppid("wxac7dc375296437ac");
+        templateMessageMiniProgram.setPagepath("index?foo=bar");
+        mpTemplateMsgBean.setTemplateMessageMiniProgram(templateMessageMiniProgram);
+        mpTemplateMsgBean.setAppid("wxbf106a706c54f731");
+        mpTemplateMsgBean.setTemplate_id("GJrpghhyOuD2jZSJvKV9VPocX1-aMhEDWe6nv9za5uA");
+
+
+        wxUniformMessage.setMp_template_msg(mpTemplateMsgBean);
+
+
+        BaseResult res = MessageAPI.messageWxUniformSend("36_uPU4Ep49KTsWgPJRJaWzLChRNKf-5VqFY7g8IZgYgbaXqWn_FskBTSc7q9NxlaYuUuDsDJN6ag--dWUSEdKe3N-n5tIbIpp2f3bz9X-YjVXJwO_vNQxNQH_jp8t20igUFFAUeFWhXRE7hDwuFRNiABAPBX",wxUniformMessage);
         System.out.println(res);
     }
 }

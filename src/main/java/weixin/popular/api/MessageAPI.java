@@ -9,10 +9,7 @@ import weixin.popular.bean.message.*;
 import weixin.popular.bean.message.massmessage.MassMessage;
 import weixin.popular.bean.message.message.Message;
 import weixin.popular.bean.message.preview.Preview;
-import weixin.popular.bean.message.templatemessage.TemplateMessage;
-import weixin.popular.bean.message.templatemessage.TemplateMessageResult;
-import weixin.popular.bean.message.templatemessage.WxSubscribeTemplateMessage;
-import weixin.popular.bean.message.templatemessage.WxopenTemplateMessage;
+import weixin.popular.bean.message.templatemessage.*;
 import weixin.popular.client.LocalHttpClient;
 import weixin.popular.util.JsonUtil;
 
@@ -306,7 +303,25 @@ public class MessageAPI extends BaseAPI {
         String messageJson = JsonUtil.toJSONString(wxSubscribeTemplateMessage);
         HttpUriRequest httpUriRequest = RequestBuilder.post()
                 .setHeader(jsonHeader)
-                .setUri(BASE_URI + "/cgi-bin/message/subscribe/send")
+                .setUri(BASE_URI + "/cgi-bin/message/suscribe/send")
+                .addParameter(PARAM_ACCESS_TOKEN, API.accessToken(access_token))
+                .setEntity(new StringEntity(messageJson, Charset.forName("utf-8")))
+                .build();
+        return LocalHttpClient.executeJsonResult(httpUriRequest, BaseResult.class);
+    }
+    /**
+     * 下发小程序和公众号统一的服务消息
+     *
+     * @param access_token    access_token
+     * @param templateMessage templateMessage
+     * @return result
+     * @since 2.8.3
+     */
+    public static BaseResult messageWxUniformSend(String access_token, WxUniformMessage wxUniformMessage) {
+        String messageJson = JsonUtil.toJSONString(wxUniformMessage);
+        HttpUriRequest httpUriRequest = RequestBuilder.post()
+                .setHeader(jsonHeader)
+                .setUri(BASE_URI + "/cgi-bin/message/wxopen/template/uniform_send")
                 .addParameter(PARAM_ACCESS_TOKEN, API.accessToken(access_token))
                 .setEntity(new StringEntity(messageJson, Charset.forName("utf-8")))
                 .build();
