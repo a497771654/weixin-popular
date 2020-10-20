@@ -5,7 +5,7 @@
 
      <groupId>com.github.a497771654</groupId>
     <artifactId>weixin-popular</artifactId>
-    <version>2.8.41</version>
+    <version>2.8.42</version>
 
     <name>weixin-popular</name>
     <description>The weixin-popular is a JAVA SDK for weixin. Weixin web url is https://mp.weixin.qq.com.</description>
@@ -240,6 +240,15 @@
             </build>
             <properties>
                 <gpg.executable>c:\Program Files (x86)\GnuPG\bin\gpg.exe</gpg.executable>
+            </properties>
+        </profile>
+        <profile>
+            <id>disable-javadoc-doclint</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <additionalparam>-Xdoclint:none</additionalparam>
             </properties>
         </profile>
     </profiles>

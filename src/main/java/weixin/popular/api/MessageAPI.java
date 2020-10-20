@@ -295,7 +295,7 @@ public class MessageAPI extends BaseAPI {
      * 订阅消息发送（微信小程序）
      *
      * @param access_token    access_token
-     * @param templateMessage templateMessage
+     * @param wxSubscribeTemplateMessage wxSubscribeTemplateMessage
      * @return result
      * @since 2.8.3
      */
@@ -313,7 +313,7 @@ public class MessageAPI extends BaseAPI {
      * 下发小程序和公众号统一的服务消息
      *
      * @param access_token    access_token
-     * @param templateMessage templateMessage
+     * @param wxUniformMessage wxUniformMessage
      * @return result
      * @since 2.8.3
      */

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weixin.popular.bean.wxa.WxaDUserInfo;
 import weixin.popular.bean.wxa.WxaDUserPhone;
+import weixin.popular.bean.wxa.WxaStepInfo;
 import weixin.popular.bean.wxa.WxaUserInfo;
 
 import javax.crypto.Cipher;
@@ -89,5 +90,18 @@ public abstract class WxaUtil {
 			logger.error("", e);
 		}
 		return null;
+	}
+	public static WxaStepInfo decryptStepInfo(String session_key, String encryptedData, String iv) {
+		try {
+			Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+			Key sKeySpec = new SecretKeySpec(org.apache.commons.codec.binary.Base64.decodeBase64(session_key), "AES");
+			cipher.init(Cipher.DECRYPT_MODE, sKeySpec, new IvParameterSpec(org.apache.commons.codec.binary.Base64.decodeBase64(iv)));
+			byte[] resultByte = cipher.doFinal(org.apache.commons.codec.binary.Base64.decodeBase64(encryptedData));
+			String data = new String(PKCS7Encoder.decode(resultByte),"utf-8");
+			return (WxaStepInfo)JsonUtil.parseObject(data, WxaStepInfo.class);
+		} catch (Exception var7) {
+			var7.printStackTrace();
+			return null;
+		}
 	}
 }
